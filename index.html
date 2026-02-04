@@ -180,14 +180,16 @@
 
     .confetti {
       position: absolute;
-      width: 8px;
-      height: 12px;
-      border-radius: 2px;
-      animation: confettiShoot 1.6s ease-out forwards;
+      font-size: 18px;
+      animation: confettiPop 2.2s ease-out forwards;
+      will-change: transform, opacity;
     }
 
-    @keyframes confettiShoot {
-      from { transform: translateY(0); opacity: 1; }
+    @keyframes confettiPop {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      60% { opacity: 1; }
+      100% { transform: translateY(-120vh) rotate(1080deg) scale(0.8); opacity: 0; }
+    }
       to { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
     }
 
@@ -296,15 +298,16 @@
   });
 
   cheerBtn.onclick=()=>{
-    const colors=['#ff2d55','#ff9500','#ffd60a','#34c759','#0a84ff'];
-    for(let i=0;i<30;i++){
+    const emojis = ['🎉','✨','🎊','💥','🔥','💪','⭐'];
+    for(let i=0;i<45;i++){
       const c=document.createElement('div');
       c.className='confetti';
-      c.style.left=Math.random()*100+'%';
-      c.style.top='80%';
-      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      c.style.left = (45 + (Math.random()*30 - 15)) + '%';
+      c.style.bottom = '0';
+      c.style.animationDelay = (Math.random()*0.3) + 's';
       glitter.appendChild(c);
-      setTimeout(()=>c.remove(),1600);
+      setTimeout(()=>c.remove(),2200);
     }
   };
 </script>
