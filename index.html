@@ -186,14 +186,14 @@
       <div class="gesture-hint">Tap a phase to send a cue</div>
 
       <div class="phases">
-        <button class="phase active" data-phase="ski">SkiErg</button>
-        <button class="phase" data-phase="sledPush">Sled Push</button>
-        <button class="phase" data-phase="sledPull">Sled Pull</button>
-        <button class="phase" data-phase="burpee">Burpee BJ</button>
+        <button class="phase active" data-phase="ski">Ski</button>
+        <button class="phase" data-phase="sledPush">Push</button>
+        <button class="phase" data-phase="sledPull">Pull</button>
+        <button class="phase" data-phase="burpee">Burpee</button>
         <button class="phase" data-phase="row">Row</button>
-        <button class="phase" data-phase="farmers">Farmer’s</button>
-        <button class="phase" data-phase="lunges">Lunges</button>
-        <button class="phase" data-phase="wallballs">Wall Balls</button>
+        <button class="phase" data-phase="farmers">Carry</button>
+        <button class="phase" data-phase="lunges">Lunge</button>
+        <button class="phase" data-phase="wallballs">Wall</button>
       </div>
 
       <div class="message" id="message">Smooth pulls. Find your rhythm.</div>
@@ -217,14 +217,14 @@
     const glitterLayer = document.getElementById('glitterLayer');
 
     const phaseData = {
-      ski: { emoji: '⛷️', cue: 'Smooth pulls. Find your rhythm.' },
-      sledPush: { emoji: '🛷', cue: 'Drive legs. Stay low.' },
-      sledPull: { emoji: '🧵', cue: 'Hand over hand. Strong core.' },
-      burpee: { emoji: '🔥', cue: 'Step back. Jump forward.' },
-      row: { emoji: '🚣‍♀️', cue: 'Long strokes. Stay tall.' },
-      farmers: { emoji: '💪', cue: 'Grip tight. Small steps.' },
-      lunges: { emoji: '🦵', cue: 'Tall chest. Control every rep.' },
-      wallballs: { emoji: '🏀', cue: 'Breathe. One rep at a time.' }
+      ski: { emoji: '⛷️', cue: 'Find your rhythm. Smooth and controlled.' },
+      sledPush: { emoji: '🛷', cue: 'Strong legs, steady drive. One push at a time.' },
+      sledPull: { emoji: '🧵', cue: 'Engage your core. Powerful, consistent pulls.' },
+      burpee: { emoji: '🔥', cue: 'Breathe. Stay steady. You own this pace.' },
+      row: { emoji: '🚣‍♀️', cue: 'Long strokes. Relax your shoulders.' },
+      farmers: { emoji: '💪', cue: 'Grip tight. Calm steps forward.' },
+      lunges: { emoji: '🦵', cue: 'Chest tall. Controlled and confident.' },
+      wallballs: { emoji: '🏀', cue: 'This is it. Strong finish to the line.' }
     };
 
     phaseButtons.forEach(btn => {
