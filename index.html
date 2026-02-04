@@ -4,95 +4,132 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Go Juls 💪 HYROX</title>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Go Juls">
 
   <style>
     :root {
       --bg: #f5f5f7;
-      --card: #ffffff;
+      --card: rgba(255,255,255,0.9);
       --text: #1d1d1f;
       --sub: #6e6e73;
       --accent: #007aff;
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+      background: linear-gradient(180deg, #dbeafe 0%, #dcfce7 55%, #ffffff 100%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
-      overflow: hidden;
+      padding: env(safe-area-inset-top) 14px env(safe-area-inset-bottom);
     }
 
     .app {
       width: 100%;
       max-width: 390px;
-      position: relative;
+    }
+
+    .pill {
+      margin: 12px auto 10px;
+      display: block;
+      width: fit-content;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.7);
+      text-align: center;
     }
 
     .card {
       background: var(--card);
       border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      position: relative;
-      z-index: 2;
+      padding: 20px;
+      box-shadow: 0 18px 36px rgba(0,0,0,0.12);
     }
 
     h1 {
-      margin: 0 0 6px 0;
-      font-size: 28px;
-      font-weight: 700;
+      margin: 6px 0 4px;
+      font-size: 30px;
+      font-weight: 800;
       text-align: center;
+      background: linear-gradient(90deg, #2563eb, #22c55e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .subtitle {
       text-align: center;
       color: var(--sub);
-      font-size: 15px;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .countdown-title {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--sub);
+      margin: 10px 0 6px;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
       margin-bottom: 14px;
     }
 
-    .emoji {
-      font-size: 48px;
+    .time-box {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 10px 4px;
       text-align: center;
-      margin: 10px 0 18px;
-      transition: transform .15s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    .time-box .num {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .time-box .label {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--sub);
+    }
+
+    .emoji {
+      font-size: 44px;
+      text-align: center;
+      margin: 10px 0 12px;
     }
 
     .gesture-hint {
       text-align: center;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--sub);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .phases {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: 6px;
+      margin-bottom: 12px;
     }
 
     .phase {
       border: none;
-      border-radius: 14px;
-      padding: 12px 6px;
-      font-size: 13px;
+      border-radius: 12px;
+      padding: 10px 4px;
+      font-size: 12px;
       font-weight: 600;
       background: var(--bg);
-      cursor: pointer;
     }
 
     .phase.active {
@@ -101,39 +138,37 @@
     }
 
     .message {
-      margin-top: 12px;
-      font-size: 17px;
+      font-size: 16px;
       text-align: center;
-      min-height: 48px;
+      min-height: 44px;
       font-weight: 600;
+      margin-bottom: 12px;
     }
 
     .remember {
-      margin-top: 18px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       background: var(--bg);
-      border-radius: 16px;
-      font-size: 15px;
+      border-radius: 14px;
+      font-size: 14px;
       line-height: 1.4;
       text-align: center;
+      margin-bottom: 14px;
     }
 
     .remember strong {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .cheer-floating {
-      margin-top: 16px;
       width: 100%;
       border: none;
       border-radius: 18px;
-      padding: 18px;
-      font-size: 18px;
+      padding: 16px;
+      font-size: 17px;
       font-weight: 700;
       background: linear-gradient(90deg, #ff2d55, #ff9500);
       color: #fff;
-      cursor: pointer;
     }
 
     .glitter-layer {
@@ -141,7 +176,6 @@
       inset: 0;
       pointer-events: none;
       overflow: hidden;
-      z-index: 5;
     }
 
     .confetti {
@@ -149,27 +183,19 @@
       width: 8px;
       height: 12px;
       border-radius: 2px;
-      opacity: 0.9;
-      animation: confettiShoot 1.6s cubic-bezier(.22,.61,.36,1) forwards;
+      animation: confettiShoot 1.6s ease-out forwards;
     }
 
-    /* FIXED: single, valid keyframes block */
     @keyframes confettiShoot {
-      0% {
-        transform: translateY(0) rotate(0deg) scale(0.8);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(720deg) scale(1.1);
-        opacity: 0;
-      }
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
     }
 
     footer {
       text-align: center;
       font-size: 12px;
       color: var(--sub);
-      margin-top: 10px;
+      margin: 10px 0;
     }
   </style>
 </head>
@@ -178,11 +204,22 @@
   <div class="app">
     <div class="glitter-layer" id="glitterLayer"></div>
 
+    <div class="pill">HYROX Hype — Let’s Go Juls!</div>
+
     <div class="card">
       <h1>Go Juls!</h1>
+      
       <div class="subtitle">You've got this 💪<br>Crushing the Hyrox race, one station at a time</div>
-      <div class="emoji" id="emoji">🛷</div>
 
+      <div class="countdown-title">Race Countdown · Feb 7 · 4:00 PM WIB</div>
+      <div class="countdown-grid">
+        <div class="time-box"><div class="num" id="cd-days">00</div><div class="label">Days</div></div>
+        <div class="time-box"><div class="num" id="cd-hours">00</div><div class="label">Hours</div></div>
+        <div class="time-box"><div class="num" id="cd-mins">00</div><div class="label">Minutes</div></div>
+        <div class="time-box"><div class="num" id="cd-secs">00</div><div class="label">Seconds</div></div>
+      </div>
+
+      <div class="emoji" id="emoji">🛷</div>
       <div class="gesture-hint">Tap a phase to send a cue</div>
 
       <div class="phases">
@@ -209,53 +246,67 @@
     <footer>Phase cues + pure celebration</footer>
   </div>
 
-  <script>
-    const messageEl = document.getElementById('message');
-    const emojiEl = document.getElementById('emoji');
-    const phaseButtons = document.querySelectorAll('.phase');
-    const cheerBtn = document.getElementById('cheer');
-    const glitterLayer = document.getElementById('glitterLayer');
+<script>
+  const cdDays = document.getElementById('cd-days');
+  const cdHours = document.getElementById('cd-hours');
+  const cdMins = document.getElementById('cd-mins');
+  const cdSecs = document.getElementById('cd-secs');
+  const messageEl = document.getElementById('message');
+  const emojiEl = document.getElementById('emoji');
+  const buttons = document.querySelectorAll('.phase');
+  const cheerBtn = document.getElementById('cheer');
+  const glitter = document.getElementById('glitterLayer');
 
-    const phaseData = {
-      ski: { emoji: '⛷️', cue: 'Find your rhythm. Smooth and controlled.' },
-      sledPush: { emoji: '🛷', cue: 'Strong legs, steady drive. One push at a time.' },
-      sledPull: { emoji: '🧵', cue: 'Engage your core. Powerful, consistent pulls.' },
-      burpee: { emoji: '🔥', cue: 'Breathe. Stay steady. You own this pace.' },
-      row: { emoji: '🚣‍♀️', cue: 'Long strokes. Relax your shoulders.' },
-      farmers: { emoji: '💪', cue: 'Grip tight. Calm steps forward.' },
-      lunges: { emoji: '🦵', cue: 'Chest tall. Controlled and confident.' },
-      wallballs: { emoji: '🏀', cue: 'This is it. Strong finish to the line.' }
-    };
+  const raceTime = new Date('2026-02-07T16:00:00+07:00');
 
-    phaseButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        phaseButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const phase = btn.dataset.phase;
-        emojiEl.textContent = phaseData[phase].emoji;
-        messageEl.textContent = phaseData[phase].cue;
-        emojiEl.style.transform = 'scale(1.1)';
-        setTimeout(() => emojiEl.style.transform = 'scale(1)', 120);
-        if (navigator.vibrate) navigator.vibrate(10);
-      });
-    });
+  function updateCountdown() {
+    const diff = raceTime - new Date();
+    if (diff <= 0) return;
 
-    cheerBtn.addEventListener('click', () => {
-      const colors = ['#ff2d55', '#ff9500', '#ffd60a', '#34c759', '#0a84ff'];
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor(diff / 3600000) % 24;
+    const m = Math.floor(diff / 60000) % 60;
+    const s = Math.floor(diff / 1000) % 60;
 
-      for (let i = 0; i < 36; i++) {
-        const el = document.createElement('div');
-        el.className = 'confetti';
-        el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        el.style.left = Math.random() * 100 + '%';
-        el.style.top = '80%';
-        el.style.animationDelay = (Math.random() * 0.2) + 's';
-        glitterLayer.appendChild(el);
-        setTimeout(() => el.remove(), 1800);
-      }
+    cdDays.textContent = String(d).padStart(2,'0');
+    cdHours.textContent = String(h).padStart(2,'0');
+    cdMins.textContent = String(m).padStart(2,'0');
+    cdSecs.textContent = String(s).padStart(2,'0');
+  }
 
-      if (navigator.vibrate) navigator.vibrate([20, 20, 20]);
-    });
-  </script>
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  const data = {
+    ski:{emoji:'⛷️',cue:'Find your rhythm. Smooth and controlled.'},
+    sledPush:{emoji:'🛷',cue:'Strong legs, steady drive. One push at a time.'},
+    sledPull:{emoji:'🧵',cue:'Engage your core. Powerful, consistent pulls.'},
+    burpee:{emoji:'🔥',cue:'Breathe. Stay steady. You own this pace.'},
+    row:{emoji:'🚣‍♀️',cue:'Long strokes. Relax your shoulders.'},
+    farmers:{emoji:'💪',cue:'Grip tight. Calm steps forward.'},
+    lunges:{emoji:'🦵',cue:'Chest tall. Controlled and confident.'},
+    wallballs:{emoji:'🏀',cue:'This is it. Strong finish to the line.'}
+  };
+
+  buttons.forEach(b=>b.onclick=()=>{
+    buttons.forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    emojiEl.textContent=data[b.dataset.phase].emoji;
+    messageEl.textContent=data[b.dataset.phase].cue;
+  });
+
+  cheerBtn.onclick=()=>{
+    const colors=['#ff2d55','#ff9500','#ffd60a','#34c759','#0a84ff'];
+    for(let i=0;i<30;i++){
+      const c=document.createElement('div');
+      c.className='confetti';
+      c.style.left=Math.random()*100+'%';
+      c.style.top='80%';
+      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      glitter.appendChild(c);
+      setTimeout(()=>c.remove(),1600);
+    }
+  };
+</script>
 </body>
 </html>
