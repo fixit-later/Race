@@ -28,6 +28,7 @@
     }
 
     .app {
+      position: relative;
       width: 100%;
       max-width: 390px;
     }
@@ -171,46 +172,55 @@
       color: #fff;
     }
 
-    .glitter-layer {
-      position: absolute;
+    /* iMessage-style full screen confetti */
+    .confetti-layer {
+      position: fixed;
       inset: 0;
       pointer-events: none;
       overflow: hidden;
+      z-index: 999;
     }
 
     .confetti {
       position: absolute;
-      font-size: 18px;
-      animation: confettiPop 2.2s ease-out forwards;
-      will-change: transform, opacity;
+      width: var(--w, 6px);
+      height: var(--h, 10px);
+      opacity: 0.9;
+      animation: fall linear forwards;
     }
 
-    @keyframes confettiPop {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      60% { opacity: 1; }
-      100% { transform: translateY(-120vh) rotate(1080deg) scale(0.8); opacity: 0; }
+    @keyframes fall {
+      0% {
+        transform: translate(var(--drift), -15vh) rotate(0deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translate(calc(var(--drift) * -1), 110vh) rotate(720deg);
+        opacity: 0.9;
+      }
     }
-      to { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+      to {
+        transform: translate(calc(var(--drift) * -1), 110vh) rotate(720deg);
+      }
     }
-
-    footer {
-      text-align: center;
-      font-size: 12px;
-      color: var(--sub);
-      margin: 10px 0;
+      to {
+        transform: translateY(110vh) rotate(720deg);
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="app">
-    <div class="glitter-layer" id="glitterLayer"></div>
+  <div class="confetti-layer" id="confettiLayer"></div>
 
+  <div class="app">
     <div class="pill">HYROX Hype — Let’s Go Juls!</div>
 
     <div class="card">
       <h1>Go Juls!</h1>
-      
       <div class="subtitle">You've got this 💪</div>
 
       <div class="countdown-title">Race Countdown · Feb 7 · 4:00 PM WIB</div>
@@ -244,8 +254,6 @@
 
       <button class="cheer-floating" id="cheer">CHEER 🎉</button>
     </div>
-
-    
   </div>
 
 <script>
@@ -257,7 +265,7 @@
   const emojiEl = document.getElementById('emoji');
   const buttons = document.querySelectorAll('.phase');
   const cheerBtn = document.getElementById('cheer');
-  const glitter = document.getElementById('glitterLayer');
+  const confettiLayer = document.getElementById('confettiLayer');
 
   const raceTime = new Date('2026-02-07T16:00:00+07:00');
 
@@ -297,18 +305,37 @@
     messageEl.textContent=data[b.dataset.phase].cue;
   });
 
-  cheerBtn.onclick=()=>{
-    const emojis = ['🎉','✨','🎊','💥','🔥','💪','⭐'];
-    for(let i=0;i<45;i++){
-      const c=document.createElement('div');
-      c.className='confetti';
-      c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-      c.style.left = (45 + (Math.random()*30 - 15)) + '%';
-      c.style.bottom = '0';
-      c.style.animationDelay = (Math.random()*0.3) + 's';
-      glitter.appendChild(c);
-      setTimeout(()=>c.remove(),2200);
+  cheerBtn.onclick = () => {
+    const colors = ['#ff2d55','#ff9500','#34c759','#007aff','#af52de','#ffd60a'];
+    const count = 220;
+
+    for (let i = 0; i < count; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      // slight size variance like iMessage
+      const scale = 0.8 + Math.random() * 0.6;
+      c.style.setProperty('--w', 6 * scale + 'px');
+      c.style.setProperty('--h', 10 * scale + 'px');
+
+      // subtle horizontal drift
+      const drift = (Math.random() - 0.5) * 40;
+      c.style.setProperty('--drift', drift + 'px');
+
+      // slight depth via opacity
+      c.style.opacity = 0.6 + Math.random() * 0.4;
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+      const duration = 4200 + Math.random() * 2800;
+      const delay = Math.random() * 1200;
+      c.style.animationDuration = duration + 'ms';
+      c.style.animationDelay = delay + 'ms';
+
+      confettiLayer.appendChild(c);
+      setTimeout(() => c.remove(), duration + delay);
     }
+
+    if (navigator.vibrate) navigator.vibrate([20, 30, 20]);
   };
 </script>
 </body>
