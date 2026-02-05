@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Go Juls 💪 HYROX</title>
+  <title>Go Juls 💪</title>
 
   <style>
     :root {
@@ -111,9 +111,7 @@
       transition: transform 220ms cubic-bezier(.34,1.56,.64,1);
     }
 
-    .emoji.pulse {
-      transform: scale(1.25);
-    }
+    .emoji.pulse { transform: scale(1.25); }
 
     .gesture-hint {
       text-align: center;
@@ -138,10 +136,7 @@
       background: var(--bg);
     }
 
-    .phase.active {
-      background: var(--accent);
-      color: #fff;
-    }
+    .phase.active { background: var(--accent); color: #fff; }
 
     .message {
       font-size: 16px;
@@ -161,10 +156,7 @@
       margin-bottom: 14px;
     }
 
-    .remember strong {
-      display: block;
-      margin-bottom: 4px;
-    }
+    .remember strong { display: block; margin-bottom: 4px; }
 
     .cheer-floating {
       width: 100%;
@@ -177,7 +169,7 @@
       color: #fff;
     }
 
-    /* iMessage-style full screen confetti */
+    /* iMessage-style full screen confetti + balloons */
     .confetti-layer {
       position: fixed;
       inset: 0;
@@ -186,12 +178,35 @@
       z-index: 999;
     }
 
+    .balloon {
+      position: absolute;
+      bottom: -15vh;
+      width: 36px;
+      height: 46px;
+      border-radius: 50% 50% 45% 45%;
+      opacity: 0.95;
+      animation: balloonRise linear forwards;
+      will-change: transform, opacity;
+    }
+
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 2px;
+      height: 14px;
+      background: rgba(0,0,0,0.15);
+      transform: translateX(-50%);
+    }
+
     .confetti {
       position: absolute;
       width: var(--w, 6px);
       height: var(--h, 10px);
-      opacity: 0.9;
+      border-radius: 2px;
       animation: fall linear forwards;
+      will-change: transform, opacity;
     }
 
     @keyframes fall {
@@ -199,20 +214,27 @@
         transform: translate(var(--drift), -15vh) rotate(0deg);
         opacity: 0;
       }
-      15% {
-        opacity: 0.9;
-      }
+      12% { opacity: 0.85; }
       100% {
         transform: translate(calc(var(--drift) * -1), 110vh) rotate(720deg);
-        opacity: 0.9;
+        opacity: 0.85;
       }
     }
+
+    @keyframes balloonRise {
+      from {
+        transform: translateX(var(--drift)) translateY(0);
+        opacity: 0.95;
+      }
       to {
+        transform: translateX(calc(var(--drift) * -1)) translateY(-130vh);
+        opacity: 0.95;
+      }
+    }
+      12% { opacity: 0.85; }
+      100% {
         transform: translate(calc(var(--drift) * -1), 110vh) rotate(720deg);
-      }
-    }
-      to {
-        transform: translateY(110vh) rotate(720deg);
+        opacity: 0.85;
       }
     }
   </style>
@@ -222,13 +244,13 @@
   <div class="confetti-layer" id="confettiLayer"></div>
 
   <div class="app">
-    <div class="pill">HYROX Hype — Let’s Go Juls!</div>
+    <div class="pill">Hystoric Race</div>
 
     <div class="card">
       <h1>Go Juls!</h1>
       <div class="subtitle">You've got this 💪</div>
 
-      <div class="countdown-title">Race Countdown · Feb 7 · 4:00 PM WIB</div>
+      <div class="countdown-title">Race Countdown · Feb 7 · 4:20 PM WIB</div>
       <div class="countdown-grid">
         <div class="time-box"><div class="num" id="cd-days">00</div><div class="label">Days</div></div>
         <div class="time-box"><div class="num" id="cd-hours">00</div><div class="label">Hours</div></div>
@@ -240,14 +262,14 @@
       <div class="gesture-hint">Tap a phase to send a cue</div>
 
       <div class="phases">
-        <button class="phase active" data-phase="ski">Ski</button>
-        <button class="phase" data-phase="sledPush">Push</button>
-        <button class="phase" data-phase="sledPull">Pull</button>
-        <button class="phase" data-phase="burpee">Burpee</button>
-        <button class="phase" data-phase="row">Row</button>
-        <button class="phase" data-phase="farmers">Carry</button>
-        <button class="phase" data-phase="lunges">Lunge</button>
-        <button class="phase" data-phase="wallballs">Wall</button>
+        <button class="phase active" data-phase="skierg">Ski</button>
+        <button class="phase" data-phase="deadlift">Deadlift</button>
+        <button class="phase" data-phase="burpees">Burpees</button>
+        <button class="phase" data-phase="rowing">Row</button>
+        <button class="phase" data-phase="kbswing">KB Swing</button>
+        <button class="phase" data-phase="boxstep">Box Step</button>
+        <button class="phase" data-phase="lunges">Lunges</button>
+        <button class="phase" data-phase="wallballs">Wall Ball</button>
       </div>
 
       <div class="message" id="message">Find your rhythm. Smooth and controlled.</div>
@@ -272,7 +294,7 @@
   const cheerBtn = document.getElementById('cheer');
   const confettiLayer = document.getElementById('confettiLayer');
 
-  const raceTime = new Date('2026-02-07T16:00:00+07:00');
+  const raceTime = new Date('2026-02-07T16:20:00+07:00');
 
   function updateCountdown() {
     const diff = raceTime - new Date();
@@ -293,56 +315,83 @@
   updateCountdown();
 
   const data = {
-    ski:{emoji:'🎿',cue:'Find your rhythm. Smooth and controlled.'},
-    sledPush:{emoji:'🛷',cue:'Strong legs, steady drive. One push at a time.'},
-    sledPull:{emoji:'🪢',cue:'Engage your core. Powerful, consistent pulls.'},
-    burpee:{emoji:'🏃‍♂️',cue:'Breathe. Stay steady. You own this pace.'},
-    row:{emoji:'🚣‍♂️',cue:'Long strokes. Relax your shoulders.'},
-    farmers:{emoji:'🏋️‍♂️',cue:'Grip tight. Calm steps forward.'},
-    lunges:{emoji:'🦵',cue:'Chest tall. Controlled and confident.'},
-    wallballs:{emoji:'🎯',cue:'This is it. Strong finish to the line.'}
+    skierg:{emoji:'🎿',cue:'Strong start. Settle into your engine.'},
+    deadlift:{emoji:'🏋️‍♂️',cue:'Brace hard. Smooth, powerful reps.'},
+    burpees:{emoji:'🔥',cue:'Stay calm. One rep at a time.'},
+    rowing:{emoji:'🚣‍♂️',cue:'Long strokes. Breathe and flow.'},
+    kbswing:{emoji:'🔔',cue:'Snap the hips. Control the bell.'},
+    boxstep:{emoji:'📦',cue:'Steady steps. No rush.'},
+    lunges:{emoji:'🦵',cue:'Chest tall. Controlled drive.'},
+    wallballs:{emoji:'🎯',cue:'Final push. Hit the target.'}
   };
 
-  buttons.forEach(b=>b.onclick=()=>{
-    buttons.forEach(x=>x.classList.remove('active'));
+  buttons.forEach(b => b.onclick = () => {
+    buttons.forEach(x => x.classList.remove('active'));
     b.classList.add('active');
 
     emojiEl.classList.remove('pulse');
-    void emojiEl.offsetWidth; // restart animation
+    void emojiEl.offsetWidth;
     emojiEl.textContent = data[b.dataset.phase].emoji;
     emojiEl.classList.add('pulse');
 
     messageEl.textContent = data[b.dataset.phase].cue;
   });
 
+  let cheerMode = 'confetti'; // toggle between effects
+
   cheerBtn.onclick = () => {
     const colors = ['#ff2d55','#ff9500','#34c759','#007aff','#af52de','#ffd60a'];
-    const count = 220;
 
-    for (let i = 0; i < count; i++) {
-      const c = document.createElement('div');
-      c.className = 'confetti';
-      // slight size variance like iMessage
-      const scale = 0.8 + Math.random() * 0.6;
-      c.style.setProperty('--w', 6 * scale + 'px');
-      c.style.setProperty('--h', 10 * scale + 'px');
+    if (cheerMode === 'confetti') {
+      // --- CONFETTI ONLY (iMessage) ---
+      const confettiCount = 220;
+      for (let i = 0; i < confettiCount; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
 
-      // subtle horizontal drift
-      const drift = (Math.random() - 0.5) * 40;
-      c.style.setProperty('--drift', drift + 'px');
+        const scale = 0.75 + Math.random() * 0.7;
+        c.style.setProperty('--w', 6 * scale + 'px');
+        c.style.setProperty('--h', 10 * scale + 'px');
 
-      // slight depth via opacity
-      c.style.opacity = 0.6 + Math.random() * 0.4;
-      c.style.left = Math.random() * 100 + 'vw';
-      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.left = Math.random() * 100 + 'vw';
+        const drift = (Math.random() - 0.5) * 50;
+        c.style.setProperty('--drift', drift + 'px');
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
 
-      const duration = 4200 + Math.random() * 2800;
-      const delay = Math.random() * 1200;
-      c.style.animationDuration = duration + 'ms';
-      c.style.animationDelay = delay + 'ms';
+        const duration = 4800 + Math.random() * 3200;
+        const delay = Math.random() * 1200;
+        c.style.animationDuration = duration + 'ms';
+        c.style.animationDelay = delay + 'ms';
+        c.style.opacity = 0.55 + Math.random() * 0.35;
 
-      confettiLayer.appendChild(c);
-      setTimeout(() => c.remove(), duration + delay);
+        confettiLayer.appendChild(c);
+        setTimeout(() => c.remove(), duration + delay);
+      }
+
+      cheerMode = 'balloon';
+
+    } else {
+      // --- BALLOONS ONLY (iMessage) ---
+      const balloonCount = 24;
+      for (let i = 0; i < balloonCount; i++) {
+        const b = document.createElement('div');
+        b.className = 'balloon';
+        b.style.left = (5 + Math.random() * 90) + 'vw';
+        b.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+        const drift = (Math.random() - 0.5) * 60;
+        b.style.setProperty('--drift', drift + 'px');
+
+        const duration = 6000 + Math.random() * 3000;
+        const delay = Math.random() * 800;
+        b.style.animationDuration = duration + 'ms';
+        b.style.animationDelay = delay + 'ms';
+
+        confettiLayer.appendChild(b);
+        setTimeout(() => b.remove(), duration + delay);
+      }
+
+      cheerMode = 'confetti';
     }
 
     if (navigator.vibrate) navigator.vibrate([20, 30, 20]);
